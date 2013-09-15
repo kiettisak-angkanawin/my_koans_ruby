@@ -13,20 +13,29 @@
 # and
 #   about_triangle_project_2.rb
 #
-def triangle(a, b, c)
-  if a == b and b == c and a == c
+def triangle_mine(a, b, c)
+  if a <= 0 or b <= 0 or c <= 0
+    raise TriangleError.new("Have Side <= 0")
+  elsif a == b and b == c and a == c
     :equilateral
-  elsif a == b
+  elsif a == b or a == c or b == c
     :isosceles
-  elsif a == c
-    :isosceles
-  elsif b == c
-    :isosceles
-  else
+  elsif a != b and a != c and b!=c
     :scalene
   end
 end
 
+def triangle(a, b, c)
+  # WRITE THIS CODE
+  #--
+  a, b, c = [a, b, c].sort
+  fail TriangleError if (a+b) <= c
+  sides = [a, b, c].uniq
+  [nil, :equilateral, :isosceles, :scalene][sides.size]
+  #++
+end
+
 # Error class used in part 2.  No need to change this code.
 class TriangleError < StandardError
+  
 end

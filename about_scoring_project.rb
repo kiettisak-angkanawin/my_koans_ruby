@@ -31,6 +31,70 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 def score(dice)
   # You need to write this method
+  #--
+  result = 0
+  (1..6).each do |face|
+    count = dice.select { |n| n == face }.size
+    while count > 0
+      if count >= 3
+        result += (face == 1) ? 1000 : 100 * face
+        count -= 3
+      elsif face == 5
+        result += count * 50
+        count = 0
+      elsif face == 1
+        result += count * 100
+        count = 0
+      else
+        count = 0
+      end
+    end
+  end
+  result
+  #++
+end
+
+def score_mine(dice)
+  # You need to write this method
+  puts dice.inspect
+  if dice.empty?
+    return 0
+  end
+  total=0
+  dice = dice.sort
+
+  #select_1 = dice.select{|point| point==1}
+  #if select_1.size >=3
+  #  total+=1000
+  #  dice -= [1,1,1]
+  #end
+  uniq_dic=dice.uniq
+  puts "uniq"+uniq_dic.inspect
+  uniq_dic.each do |point|
+    count = dice.count(point)
+    if(count>=3)
+      if point == 1
+        total+=1000
+        dice -= [1]*3
+      else
+        total+=100*point
+        dice -= [point]*3
+      end
+    end
+  end
+  puts "after triple"+dice.inspect
+
+
+  dice.each do |point|
+
+    if point == 1
+      total+=100
+    end
+    if point == 5
+      total+=50
+    end
+  end
+  total
 end
 
 class AboutScoringProject < Neo::Koan
